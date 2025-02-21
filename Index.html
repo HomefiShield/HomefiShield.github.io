@@ -1,1 +1,394 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Name - Security Researcher</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
+    <style>
+        :root {
+            --bg-primary: #0a192f;
+            --bg-secondary: #112240;
+            --text-primary: #ccd6f6;
+            --text-secondary: #8892b0;
+            --accent: #64ffda;
+            --hover: rgba(100, 255, 218, 0.1);
+        }
 
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+        }
+
+        header {
+            padding: 2rem;
+            background-color: var(--bg-primary);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        nav {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            color: var(--accent);
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--text-primary);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: color 0.3s;
+            position: relative;
+        }
+
+        .nav-links a:hover {
+            color: var(--accent);
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -4px;
+            left: 0;
+            background-color: var(--accent);
+            transition: width 0.3s;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        main {
+            margin-top: 80px;
+            padding: 2rem;
+            max-width: 1200px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .hero {
+            height: calc(100vh - 80px);
+            display: flex;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-content {
+            max-width: 600px;
+        }
+
+        .hero-title {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            line-height: 1.1;
+        }
+
+        .hero-subtitle {
+            color: var(--accent);
+            font-size: 1.2rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .section {
+            margin: 8rem 0;
+        }
+
+        .section-title {
+            font-size: 2rem;
+            margin-bottom: 2rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .section-title::after {
+            content: '';
+            height: 1px;
+            flex: 1;
+            background-color: var(--text-secondary);
+            opacity: 0.3;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .card {
+            background-color: var(--bg-secondary);
+            padding: 2rem;
+            border-radius: 8px;
+            transition: transform 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--accent), transparent);
+            transform: scaleX(0);
+            transition: transform 0.3s;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+        }
+
+        .card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .project-card {
+            position: relative;
+            background-color: var(--bg-secondary);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .project-card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            transition: transform 0.3s;
+        }
+
+        .project-content {
+            padding: 1.5rem;
+        }
+
+        .project-title {
+            color: var(--accent);
+            margin-bottom: 0.5rem;
+        }
+
+        .tech-stack {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        .contact-section {
+            text-align: center;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .social-links a {
+            color: var(--text-primary);
+            font-size: 1.5rem;
+            transition: color 0.3s, transform 0.3s;
+        }
+
+        .social-links a:hover {
+            color: var(--accent);
+            transform: translateY(-3px);
+        }
+
+        .skill-icon {
+            font-size: 2rem;
+            color: var(--accent);
+            margin-bottom: 1rem;
+        }
+
+        .terminal-window {
+            background-color: #1a1a1a;
+            border-radius: 8px;
+            padding: 1rem;
+            font-family: 'Fira Code', monospace;
+            margin-top: 2rem;
+        }
+
+        .terminal-header {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .terminal-button {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background-color: #ff5f56;
+        }
+
+        .terminal-button:nth-child(2) {
+            background-color: #ffbd2e;
+        }
+
+        .terminal-button:nth-child(3) {
+            background-color: #27c93f;
+        }
+
+        .terminal-content {
+            color: var(--accent);
+        }
+
+        .cursor {
+            display: inline-block;
+            width: 8px;
+            height: 1em;
+            background-color: var(--accent);
+            animation: blink 1s infinite;
+        }
+
+        @keyframes blink {
+            50% { opacity: 0; }
+        }
+
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: 3rem;
+            }
+
+            .nav-links {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <a href="#" class="logo">[YN]</a>
+            <ul class="nav-links">
+                <li><a href="#about">About</a></li>
+                <li><a href="#expertise">Expertise</a></li>
+                <li><a href="#projects">Projects</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section class="hero">
+            <div class="hero-content">
+                <h1 class="hero-title">Security Researcher & Ethical Hacker</h1>
+                <p class="hero-subtitle">Securing the digital frontier</p>
+                <div class="terminal-window">
+                    <div class="terminal-header">
+                        <div class="terminal-button"></div>
+                        <div class="terminal-button"></div>
+                        <div class="terminal-button"></div>
+                    </div>
+                    <div class="terminal-content">
+                        $ whoami<br>
+                        > Your Name<br>
+                        $ skills --list<br>
+                        > Penetration Testing<br>
+                        > Vulnerability Assessment<br>
+                        > Incident Response<br>
+                        <span class="cursor"></span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="expertise" class="section">
+            <h2 class="section-title">Core Expertise</h2>
+            <div class="grid">
+                <div class="card">
+                    <i class="fas fa-shield-alt skill-icon"></i>
+                    <h3>Offensive Security</h3>
+                    <p>Specialized in penetration testing and red team operations</p>
+                </div>
+                <div class="card">
+                    <i class="fas fa-bug skill-icon"></i>
+                    <h3>Vulnerability Research</h3>
+                    <p>Discovery and analysis of security vulnerabilities</p>
+                </div>
+                <div class="card">
+                    <i class="fas fa-code skill-icon"></i>
+                    <h3>Security Development</h3>
+                    <p>Creating tools and automation for security testing</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="projects" class="section">
+            <h2 class="section-title">Featured Projects</h2>
+            <div class="grid">
+                <div class="project-card">
+                    <img src="/api/placeholder/400/320" alt="Project 1">
+                    <div class="project-content">
+                        <h3 class="project-title">Security Framework</h3>
+                        <p>Advanced security testing framework for web applications</p>
+                        <div class="tech-stack">
+                            <span>Python</span>
+                            <span>Docker</span>
+                            <span>REST API</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="project-card">
+                    <img src="/api/placeholder/400/320" alt="Project 2">
+                    <div class="project-content">
+                        <h3 class="project-title">Threat Detection System</h3>
+                        <p>ML-based system for identifying security threats</p>
+                        <div class="tech-stack">
+                            <span>TensorFlow</span>
+                            <span>Kubernetes</span>
+                            <span>ELK Stack</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="contact" class="section contact-section">
+            <h2 class="section-title">Get in Touch</h2>
+            <p>Looking for a security professional? Let's connect.</p>
+            <div class="social-links">
+                <a href="#"><i class="fab fa-github"></i></a>
+                <a href="#"><i class="fab fa-linkedin"></i></a>
+                <a href="#"><i class="fab fa-twitter"></i></a>
+                <a href="#"><i class="fas fa-envelope"></i></a>
+            </div>
+        </section>
+    </main>
+</body>
+</html>
